@@ -2,6 +2,7 @@ package com.drfits;
 
 import com.drfits.annotation.RunMethod;
 import com.drfits.transfer.Transfer;
+import com.drfits.transfer.TransferExecutor;
 import com.drfits.transfer.TransferExecutorImpl;
 import com.drfits.transfer.TransferImpl;
 
@@ -27,15 +28,22 @@ public class App {
                     MethodHandles.Lookup lookup = MethodHandles.lookup();
                     MethodHandle methodHandle = lookup.unreflect(method);
                     MethodType invokedType = MethodType.methodType(Function.class);
-                    MethodType functionMethodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
-                    Function lambda = (Function) LambdaMetafactory.metafactory(
+                    MethodType functionMethodType = MethodType.methodType(method.getReturnType(), Transfer.class, Transfer.class);
+
+                    // Lambda which can be executed
+                    TransferExecutor transferExecutor= new TransferExecutorImpl();
+                    Function<Transfer, Void> commonLambda = transferExecutor::execute;
+                    commonLambda.apply(transfer);
+
+                    // Lambda constructed manually
+                    Function<Transfer, Void> constructedLambda = (Function) LambdaMetafactory.metafactory(
                             lookup,
                             "apply",
                             invokedType,
                             functionMethodType,
                             methodHandle,
                             methodHandle.type()).getTarget().invokeExact();
-                    lambda.apply(transfer);
+                    constructedLambda.apply(transfer);
                 } catch (Throwable t) {
                     System.out.println(t.getMessage());
                 }

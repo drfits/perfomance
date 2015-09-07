@@ -9,5 +9,5 @@ public interface TransferExecutor {
      *
      * @param transfer
      */
-    void execute(Transfer transfer);
+    Void execute(Transfer transfer);
 }

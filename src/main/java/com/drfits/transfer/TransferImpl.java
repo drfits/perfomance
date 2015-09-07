@@ -13,6 +13,6 @@ public class TransferImpl implements Transfer {
 
     @Override
     public String getData() {
-        return null;
+        return data;
     }
 }

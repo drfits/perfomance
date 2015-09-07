@@ -8,7 +8,7 @@ import com.drfits.annotation.RunMethod;
 public class TransferExecutorImpl implements TransferExecutor {
 
     @RunMethod
-    public void execute(Transfer transfer) {
+    public Void execute(Transfer transfer) {
         String msg;
         if (transfer != null) {
             msg = "Execute data: " + transfer.getData();
@@ -16,5 +16,6 @@ public class TransferExecutorImpl implements TransferExecutor {
             msg = "transfer object is null";
         }
         System.out.println(msg);
+        return null;
     }
 }
