@@ -28,7 +28,7 @@ public class App {
                     MethodHandles.Lookup lookup = MethodHandles.lookup();
                     MethodHandle methodHandle = lookup.unreflect(method);
                     MethodType invokedType = MethodType.methodType(Function.class);
-                    MethodType functionMethodType = MethodType.methodType(method.getReturnType(), Transfer.class, Transfer.class);
+                    MethodType functionMethodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
 
                     // Lambda which can be executed
                     TransferExecutor transferExecutor= new TransferExecutorImpl();
